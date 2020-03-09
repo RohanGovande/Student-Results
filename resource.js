@@ -16,12 +16,10 @@ import Container from "@material-ui/core/Container";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Icon from "@material-ui/core/Icon"
+import Icon from "@material-ui/core/Icon";
 import DeleteIcon from "@material-ui/icons/Delete";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Link from "@material-ui/core/Link";
 import { data } from "./data";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Modal from "@material-ui/core/Modal";
@@ -34,7 +32,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import { Drawer, DrawerHeader, DrawerSubheader, DrawerBody, DrawerFooter } from '@pxblue/react-components';
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -43,11 +40,14 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import SearchIcon from "@material-ui/icons/Search";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Divider from "@material-ui/core/Divider";
 import InputBase from "@material-ui/core/InputBase";
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const preventDefault = event => event.preventDefault();
 const options = ["Delete"];
@@ -118,29 +118,6 @@ export default function StickyHeadTable() {
     hide: {
       display: "none"
     },
-    drawer: {
-      width: 240,
-      flexShrink: 0,
-      whiteSpace: "nowrap"
-      },
-    drawerOpen: {
-      width: 240,
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen
-      })
-    },
-    drawerClose: {
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
-      }),
-      overflowX: "hidden",
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9) + 1
-      }
-    },
     toolbar: {
       display: "flex",
       alignItems: "center",
@@ -159,12 +136,8 @@ export default function StickyHeadTable() {
       "&:hover": {
         backgroundColor: fade(theme.palette.common.white, 0.25)
       },
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(1),
-        width: "auto"
-      }
+      marginLeft: 400,
+      width: "30%"
     },
     searchIcon: {
       width: theme.spacing(7),
@@ -188,7 +161,7 @@ export default function StickyHeadTable() {
           width: 200
         }
       }
-    },
+    }
   }));
 
   const classes = useStyles();
@@ -286,229 +259,87 @@ export default function StickyHeadTable() {
     <div className={classes.root}>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
-               
-        <AppBar
-          position="fixed"
-          className={clsx(classes.appBar, {
-            [classes.appBarShift]: openDrawer
-          })}
-        >
-                        
-          <Toolbar>
-             {" "}
-            <IconButton
-              color="inherit"
-              onClick={handleDrawerOpen}
-              edge="start"
-              className={clsx(classes.menuButton, {
-                [classes.hide]: openDrawer
-              })}
-            >
-              <MenuIcon />
-            </IconButton>
-                         
-            <Typography ariant="h6" noWrap>
-                Resources                 
-            </Typography>
-                        {" "}
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Repository.."
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                inputProps={{ "aria-label": "search" }}
-                onChange={handleSearchChange}
-                value={inputvalue}
-              />
-            </div>
-          </Toolbar>
-                      
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          open = {openDrawer}
-          className={clsx(classes.drawer, {
-            [classes.drawerOpen]: openDrawer,
-            [classes.drawerClose]: !openDrawer
-          })}
-          classes={{
-            paper: clsx({
-              [classes.drawerOpen]: openDrawer,
-              [classes.drawerClose]: !openDrawer
-            })
-          }}
-        >
-          <DrawerHeader icon={theme.direction === "rtl" ? (
-                <ChevronRightIcon />
-              ) : (
-                <ChevronLeftIcon />
-              )} onIconClick={handleDrawerClose} >
-          </DrawerHeader>
-          <Divider />{" "}
-          <DrawerBody>
-          <List>
-            {["Home", "Design Patterns", "Style Guides", "Resources"].map(
-              (text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon >
-                    {index % 2 === 0 ? <SettingsIcon /> : <CheckCircleIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              )
-            )}
-          </List>
-          </DrawerBody>
-        </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-
-          <Typography paragraph>
-            Power Xpert Blue offers a number of resources for developers,
-            available through{" "}
-            <Link href="https://www.npmjs.com/org/pxblue">NPM</Link> and{" "}
-            <Link href="https://github.com/pxblue">GitHub</Link>. These include
-            utility packages as well as sample code/design pattern examples.
-          </Typography>
-          <Typography paragraph>
-            The following table shows the current status for PX Blue resources
-            available through NPM.
-          </Typography>
-          <Paper paragraph>
-            <TableContainer className={classes.container}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    {columns.map(column => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ minWidth: column.minWidth }}
-                      >
-                        {column.label}{" "}
-                        {column.id === "issues" ? (
-                          <Tooltip title="Add Resource">
-                            <IconButton
-                              className={classes.spacing}
-                              data-cy="toolbar-add"
-                              color="inherit"
-                              aria-label="add"
-                              onClick={handleOpen}
-                            >
-                              <AddCircleIcon color="secondary" />
-                            </IconButton>
-                          </Tooltip>
-                        ) : null}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, i) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={row.code}
-                        >
-                          {columns.map(column => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell
-                                key={row[column.id] + "_" + value.name}
-                                align={column.align}
-                              >
-                                {!Array.isArray(value) ? (
-                                  <Link
-                                    key={value.name}
-                                    href={value.url}
-                                    onClick={preventDefault}
-                                  >
-                                    {column.id !== "status" ? (
-                                      <span> {value.name} </span>
-                                    ) : (
-                                      <CheckCircleIcon
-                                        href={value.url}
-                                        onClick={preventDefault}
-                                      />
-                                    )}
-                                  </Link>
-                                ) : (
-                                  <span>
-                                    {value.map((val, i) => (
-                                      <React.Fragment key={i}>
-                                        {" "}
-                                        <Link
-                                          key={value.name}
-                                          className={classes.cursor}
-                                          href={value.url}
-                                          onClick={preventDefault}
-                                        >
-                                          {val.name}
-                                        </Link>
-                                        {i === value.length - 1 ? null : <br />}
-                                      </React.Fragment>
-                                    ))}
-                                  </span>
-                                )}
-                                {column.id === "issues" ? (
-                                  <IconButton
-                                    className={classes.spacing}
-                                    data-cy="action-menu"
-                                    aria-haspopup="true"
-                                    onClick={evt => onMenuClick(evt, i)}
-                                  >
-                                    <MoreVertIcon />
-                                  </IconButton>
-                                ) : null}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-            <Menu
-              id="long-menu"
-              anchorEl={menuposition}
-              open={Boolean(menuposition)}
-              onClose={onMenuClose.bind(this)}
-              PaperProps={{
-                style: {
-                  maxHeight: ITEM_HEIGHT * 4.5,
-                  width: 200
-                }
-              }}
-            >
-              {options.map(option => (
-                <MenuItem
-                  key={option}
-                  onClick={() => onMenuItemClick(option, activeMenu)}
-                >
-                  {option}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Paper>
+          <AppBar position="fixed">
+                                  
+            <Toolbar>
+                             
+              <Typography ariant="h6">Grades                 </Typography>
+                          {" "}
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Student Name.."
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={handleSearchChange}
+                  value={inputvalue}
+                />
+              </div>
+            </Toolbar>
+            <Paper paragraph>
+              <TableContainer className={classes.container}>
+                <ExpansionPanel>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-label="Expand"
+                    aria-controls="additional-actions1-content"
+                    id="additional-actions1-header"
+                  >
+                    <FormControlLabel
+                      aria-label="Acknowledge"
+                      onClick={event => event.stopPropagation()}
+                      onFocus={event => event.stopPropagation()}
+                      control={<SearchIcon/>}
+                      label="I acknowledge that I should stop the click event propagation"
+                    />
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Typography color="textSecondary">
+                      The click event of the nested action will propagate up and
+                      expand the panel unless you explicitly stop it.
+                    </Typography>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
+              <Menu
+                id="long-menu"
+                anchorEl={menuposition}
+                open={Boolean(menuposition)}
+                onClose={onMenuClose.bind(this)}
+                PaperProps={{
+                  style: {
+                    maxHeight: ITEM_HEIGHT * 4.5,
+                    width: 200
+                  }
+                }}
+              >
+                {options.map(option => (
+                  <MenuItem
+                    key={option}
+                    onClick={() => onMenuItemClick(option, activeMenu)}
+                  >
+                    {option}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Paper>
+          </AppBar>
         </main>
         <Modal
           aria-labelledby="simple-modal-title"
