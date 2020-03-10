@@ -144,21 +144,11 @@ export default function StickyHeadTable() {
       "&:hover": {
         backgroundColor: fade(theme.palette.common.white, 0.25)
       },
-      marginLeft: 400,
-      width: "30%"
-    },
-     searchMobile: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
-      "&:hover": {
-        backgroundColor: fade(theme.palette.common.white, 0.25)
-      },
-      marginLeft: 200,
-      width: "15%"
+      marginLeft: 20,
+      width: "40%"
     },
     searchIcon: {
-      width: theme.spacing(7),
+      width: theme.spacing(3),
       height: "100%",
       position: "absolute",
       pointerEvents: "none",
@@ -174,12 +164,32 @@ export default function StickyHeadTable() {
       transition: theme.transitions.create("width"),
       width: "100%",
       [theme.breakpoints.up("sm")]: {
-        width: 120,
+        width: 200,
         "&:focus": {
           width: 200
         }
       }
-    }
+    },
+    inputInputMobile: {
+      padding: theme.spacing(1, 1, 1, 3),
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      [theme.breakpoints.up("sm")]: {
+        width: 100,
+        "&:focus": {
+          width: 100
+        }
+      }
+    }, 
+    heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
   }));
 
   const classes = useStyles();
@@ -218,7 +228,7 @@ export default function StickyHeadTable() {
         return lc.includes(filter);
       });
       setRows(newList);
-     console.log(newList)
+     console.log(rows)
     } else {
       setRows(data);
     }
@@ -313,17 +323,16 @@ export default function StickyHeadTable() {
                                   
             <Toolbar>
                              
-              <Typography ariant="h6">Grades </Typography>
-                          {" "}
-              <div className={width > 460 ? classes.search : classes.searchMobile}>
+              <Typography ariant="h6">Grades </Typography> {" "}
+              <div className={ classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
                 <InputBase
-                  placeholder="Student Name.."
+                  placeholder=  "Student Name.."
                   classes={{
                     root: classes.inputRoot,
-                    input: classes.inputInput
+                    input :  width > 460 ?  classes.inputInput : classes.inputInputMobile
                   }}
                   inputProps={{ "aria-label": "search" }}
                   onChange={handleSearchChange}
@@ -333,7 +342,7 @@ export default function StickyHeadTable() {
             </Toolbar>
             <Paper paragraph>
               <TableContainer className={classes.container}>
-                {sortByGrade(data).map(obj => (
+                {sortByGrade(rows).map(obj => (
                   <ExpansionPanel key={obj.id}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -344,13 +353,14 @@ export default function StickyHeadTable() {
                         onClick={event => event.stopPropagation()}
                         onFocus={event => event.stopPropagation()}
                         control={getGrade(obj.grade)}
-                        label={"Student:" +obj.studentName+"," +"Teacher:"+ obj.teacherName}
                       />
+                <Typography className={classes.heading}>{"Student:" + obj.studentName}</Typography>
+              <Typography className={classes.secondaryHeading}>{"Teacher:"+ obj.teacherName}</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <Typography color="textSecondary" className={classes.root}>
                         <PrimaryInfo details={...obj} />
-                       {width > 460 ? <SecondaryInfo details={obj.metaData} />:null}
+                       {width > 460 ? <SecondaryInfo  className={classes.spacing} details={obj.metaData} />:null}
 
                       </Typography>
                     </ExpansionPanelDetails>
