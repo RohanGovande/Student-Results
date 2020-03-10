@@ -1,7 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Resource from './resource';
+import Grades from './grades';
 
-ReactDOM.render(<Resource />, document.querySelector('#root'));
+ReactDOM.render(<Grades />, document.querySelector('#root'));
     

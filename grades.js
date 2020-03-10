@@ -42,12 +42,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import SearchIcon from "@material-ui/icons/Search";
 import Divider from "@material-ui/core/Divider";
 import InputBase from "@material-ui/core/InputBase";
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const preventDefault = event => event.preventDefault();
 const options = ["Delete"];
@@ -175,9 +175,6 @@ export default function StickyHeadTable() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(JSON.stringify(data[0]));
   const [openSnackBar, setSnackBar] = React.useState(false);
-
-  const [openDrawer, setOpenDrawer] = React.useState(false);
-
   const [inputvalue, setSearchValue] = React.useState("");
   const handleSearchChange = event => {
     let tempList = rows;
@@ -194,13 +191,6 @@ export default function StickyHeadTable() {
     setSearchValue(event.target.value);
   };
 
-  const handleDrawerOpen = () => {
-    setOpenDrawer(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpenDrawer(false);
-  };
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
 
@@ -285,28 +275,30 @@ export default function StickyHeadTable() {
             </Toolbar>
             <Paper paragraph>
               <TableContainer className={classes.container}>
-                <ExpansionPanel>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-label="Expand"
-                    aria-controls="additional-actions1-content"
-                    id="additional-actions1-header"
-                  >
-                    <FormControlLabel
-                      aria-label="Acknowledge"
-                      onClick={event => event.stopPropagation()}
-                      onFocus={event => event.stopPropagation()}
-                      control={<SearchIcon/>}
-                      label="I acknowledge that I should stop the click event propagation"
-                    />
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <Typography color="textSecondary">
-                      The click event of the nested action will propagate up and
-                      expand the panel unless you explicitly stop it.
-                    </Typography>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
+                {data.map((obj) => {
+                  <ExpansionPanel key={obj}>
+                    <ExpansionPanelSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-label="Expand"
+                      aria-controls="additional-actions1-content"
+                      id="additional-actions1-header"
+                    >
+                      <FormControlLabel
+                        aria-label="Acknowledge"
+                        onClick={event => event.stopPropagation()}
+                        onFocus={event => event.stopPropagation()}
+                        control={<SearchIcon />}
+                        label="I acknowledge that I should stop the click event propagation"
+                      />
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <Typography color="textSecondary">
+                        The click event of the nested action will propagate up
+                        and expand the panel unless you explicitly stop it.
+                      </Typography>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>;
+                })}
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
