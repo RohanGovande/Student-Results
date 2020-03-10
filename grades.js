@@ -59,8 +59,6 @@ import GradeFIcon from '@pxblue/icons-mui/GradeF';
 
 const preventDefault = event => event.preventDefault();
 const options = ["Delete"];
-const isMobile = window.innerWidth < 480;
-console.log(isMobile)
 const ITEM_HEIGHT = 48;
 const columns = [
   { id: "repository", label: "Repository", minWidth: 200 },
@@ -149,6 +147,16 @@ export default function StickyHeadTable() {
       marginLeft: 400,
       width: "30%"
     },
+     searchMobile: {
+      position: "relative",
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade(theme.palette.common.white, 0.15),
+      "&:hover": {
+        backgroundColor: fade(theme.palette.common.white, 0.25)
+      },
+      marginLeft: 200,
+      width: "15%"
+    },
     searchIcon: {
       width: theme.spacing(7),
       height: "100%",
@@ -186,15 +194,31 @@ export default function StickyHeadTable() {
   const [value, setValue] = React.useState(JSON.stringify(data[0]));
   const [openSnackBar, setSnackBar] = React.useState(false);
   const [inputvalue, setSearchValue] = React.useState("");
+  const [width, setWidth] = React.useState(window.innerWidth)
+
+
+  const [width, setWidth] = React.useState(window.innerWidth)
+  const [height, setHeight] = React.useState(window.innerHeight)
+  let resizeWindow = () => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
+
+  React.useEffect(() => {
+    resizeWindow();
+    window.addEventListener("resize", resizeWindow);
+    return () => window.removeEventListener("resize", resizeWindow);
+  }, []);
   const handleSearchChange = event => {
     let tempList = rows;
     if (event.target.value) {
       let newList = tempList.filter(item => {
-        const lc = item.repository.name.toLowerCase();
+        const lc = item.studentName.toLowerCase();
         const filter = event.target.value.toLowerCase();
         return lc.includes(filter);
       });
       setRows(newList);
+     console.log(newList)
     } else {
       setRows(data);
     }
@@ -279,17 +303,6 @@ export default function StickyHeadTable() {
       return 0;
     });
   }
-  const ResponsiveLayout = ({ breakpoint, renderMobile, renderDesktop }) => {
-  const [width, setWidth] = useState(window.innerWidth)
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth)
-    }
-    window.addEventListener("resize", handleResize)
-    return () => { window.removeEventListener("resize", handleResize) }
-  }, [])
-  return (width > breakpoint ? renderDesktop() : renderMobile())
-}
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -300,9 +313,9 @@ export default function StickyHeadTable() {
                                   
             <Toolbar>
                              
-              <Typography ariant="h6">Grades                 </Typography>
+              <Typography ariant="h6">Grades </Typography>
                           {" "}
-              <div className={classes.search}>
+              <div className={width > 460 ? classes.search : classes.searchMobile}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
@@ -337,7 +350,7 @@ export default function StickyHeadTable() {
                     <ExpansionPanelDetails>
                       <Typography color="textSecondary" className={classes.root}>
                         <PrimaryInfo details={...obj} />
-                        <SecondaryInfo details={obj.metaData} />
+                       {width > 460 ? <SecondaryInfo details={obj.metaData} />:null}
 
                       </Typography>
                     </ExpansionPanelDetails>

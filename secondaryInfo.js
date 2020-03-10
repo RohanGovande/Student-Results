@@ -17,7 +17,6 @@ export default function SecndaryInfo(props) {
     }
   });
   const classes = useStyles();
-  console.log(props.details);
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
