@@ -48,6 +48,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import PrimaryInfo from "./rimaryInfo";
 
 const preventDefault = event => event.preventDefault();
 const options = ["Delete"];
@@ -245,6 +246,30 @@ export default function StickyHeadTable() {
     setActiveMenu(null);
   }
 
+  function sortByGrade(gradeData) {
+    // sort by value
+    return sortByName(gradeData.sort((a, b) => b.grade - a.grade));
+  }
+  function getGrade(grade) {
+    let result;
+    if (grade <= 60) result = "F";
+    else if (grade > 60 && grade <= 70) result = "D";
+    else if (grade > 70 && grade <= 80) result = "C";
+    else if (grade > 80 && grade <= 90) result = "B";
+    else if (grade > 90 && grade <= 100) result = "A";
+    else result = "";
+    return result;
+  }
+
+  function sortByName(gradeData) {
+    return gradeData.sort((a, b) => {
+      var nameA = a.studentName.toLowerCase();
+      var nameB = b.studentName.toLowerCase();
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+      return 0;
+    });
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -275,12 +300,10 @@ export default function StickyHeadTable() {
             </Toolbar>
             <Paper paragraph>
               <TableContainer className={classes.container}>
-                {data.map((obj) => {
-                  <ExpansionPanel key={obj}>
+                {sortByGrade(data).map(obj => (
+                  <ExpansionPanel key={obj.id}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
-                      aria-label="Expand"
-                      aria-controls="additional-actions1-content"
                       id="additional-actions1-header"
                     >
                       <FormControlLabel
@@ -288,17 +311,17 @@ export default function StickyHeadTable() {
                         onClick={event => event.stopPropagation()}
                         onFocus={event => event.stopPropagation()}
                         control={<SearchIcon />}
-                        label="I acknowledge that I should stop the click event propagation"
+                        label={getGrade(obj.grade)}
                       />
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <Typography color="textSecondary">
-                        The click event of the nested action will propagate up
-                        and expand the panel unless you explicitly stop it.
+                        <PrimaryInfo />
+                        <SecondaryInfo />
                       </Typography>
                     </ExpansionPanelDetails>
-                  </ExpansionPanel>;
-                })}
+                  </ExpansionPanel>
+                ))}
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}

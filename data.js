@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 const data = [
   {
     id: 1,
-    grade: "A+",
+    grade: 90,
     className: "1",
     teacherName: "Tom",
     studentName: "Jim",
@@ -19,7 +19,7 @@ const data = [
   },
   {
     id: 2,
-    grade: "B+",
+    grade: 80,
     className: "1",
     teacherName: "Tom",
     studentName: "Phill",
@@ -33,7 +33,7 @@ const data = [
   },
   {
     id: 3,
-    grade: "A",
+    grade: 30,
     className: "1",
     teacherName: "Tom",
     studentName: "Jim",
@@ -47,7 +47,7 @@ const data = [
   },
   {
     id: 4,
-    grade: "A",
+    grade: 80,
     className: "1",
     teacherName: "Tom",
     studentName: "Bill",
@@ -55,13 +55,15 @@ const data = [
       {
         Physics: 20,
         Chemistry: 20,
-        Maths: 80
+        Maths: 80,
+        data: "",
+        backColor: ""
       }
     ]
   },
   {
     id: 5,
-    grade: "B+",
+    grade: 95,
     className: "1",
     teacherName: "Tom",
     studentName: "Dan",
@@ -69,13 +71,15 @@ const data = [
       {
         Physics: 20,
         Chemistry: 20,
-        Maths: 80
+        Maths: 80,
+        data: "",
+        backColor: ""
       }
     ]
   },
   {
     id: 6,
-    grade: "D",
+    grade: 65,
     className: "1",
     teacherName: "Tom",
     studentName: "Jon",
@@ -83,7 +87,9 @@ const data = [
       {
         Physics: 20,
         Chemistry: 20,
-        Maths: 80
+        Maths: 80,
+        data: "",
+        backColor: ""
       }
     ]
   }
