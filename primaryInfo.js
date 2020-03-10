@@ -1,9 +1,10 @@
 import React from "react";
 
-export function PrimaryInfo(props) {
-  return (
-    <div>
+export default function PrimaryInfo(props) {
+    return (<div>
+    {props.details}
     </div>
-  );
+    
+    )
 }
 

@@ -20,7 +20,7 @@ const data = [
   {
     id: 2,
     grade: 80,
-    className: "1",
+    className: "2",
     teacherName: "Tom",
     studentName: "Phill",
     metaData: [
@@ -34,7 +34,7 @@ const data = [
   {
     id: 3,
     grade: 30,
-    className: "1",
+    className: "3",
     teacherName: "Tom",
     studentName: "Jim",
     metaData: [
@@ -48,7 +48,7 @@ const data = [
   {
     id: 4,
     grade: 80,
-    className: "1",
+    className: "4",
     teacherName: "Tom",
     studentName: "Bill",
     metaData: [
@@ -64,7 +64,7 @@ const data = [
   {
     id: 5,
     grade: 95,
-    className: "1",
+    className: "5",
     teacherName: "Tom",
     studentName: "Dan",
     metaData: [
@@ -80,7 +80,7 @@ const data = [
   {
     id: 6,
     grade: 65,
-    className: "1",
+    className: "6",
     teacherName: "Tom",
     studentName: "Jon",
     metaData: [
