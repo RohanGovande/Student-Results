@@ -49,6 +49,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PrimaryInfo from "./primaryInfo";
+import SecondaryInfo from "./secondaryInfo";
 
 const preventDefault = event => event.preventDefault();
 const options = ["Delete"];
@@ -316,9 +317,9 @@ export default function StickyHeadTable() {
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <Typography color="textSecondary">
-                        <PrimaryInfo details={
-                          name = obj.studentName,
-                          className = obj.className} />
+                        <PrimaryInfo details={...obj} />
+                        <SecondaryInfo details={...obj} />
+
                       </Typography>
                     </ExpansionPanelDetails>
                   </ExpansionPanel>
