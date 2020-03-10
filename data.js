@@ -25,9 +25,9 @@ const data = [
     studentName: "Phill",
     metaData: [
       {
-        Physics: 20,
-        Chemistry: 20,
-        Maths: 80
+        Subject1: 20,
+        Subject2: 20,
+        Subject3: 80
       }
     ]
   },

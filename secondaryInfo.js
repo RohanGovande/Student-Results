@@ -17,23 +17,20 @@ export default function SecndaryInfo(props) {
     }
   });
   const classes = useStyles();
-  const metaData = props.details.metaData;
-  console.log(metaData);
+  console.log(props.details);
   return (
-    <div>
-      <Card className={classes.root} variant="outlined">
-        <CardContent>
-          {metaData.map(obj => {
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-            {obj}
-            </Typography>;
+    <Card className={classes.root} variant="outlined">
+      <CardContent>
+          {props.details.map(function (items, index) {
+            return Object.keys(items).map(key => (
+               <Typography>
+                <p key={key + index}>
+                  {key}:{items[key]}
+                </p>
+              </Typography>
+            ));
           })}
-        </CardContent>
-      </Card>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

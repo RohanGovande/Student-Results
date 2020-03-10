@@ -50,10 +50,17 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PrimaryInfo from "./primaryInfo";
 import SecondaryInfo from "./secondaryInfo";
+import GradeAIcon from '@pxblue/icons-mui/GradeA';
+import GradeBIcon from '@pxblue/icons-mui/GradeB';
+import GradeCIcon from '@pxblue/icons-mui/GradeC';
+import GradeDIcon from '@pxblue/icons-mui/GradeD';
+import GradeFIcon from '@pxblue/icons-mui/GradeF';
+
 
 const preventDefault = event => event.preventDefault();
 const options = ["Delete"];
-
+const isMobile = window.innerWidth < 480;
+console.log(isMobile)
 const ITEM_HEIGHT = 48;
 const columns = [
   { id: "repository", label: "Repository", minWidth: 200 },
@@ -80,7 +87,8 @@ export default function StickyHeadTable() {
 
   const useStyles = makeStyles(theme => ({
     root: {
-      display: "flex"
+      display: "flex",
+      flex:"wrap"
     },
     container: {
       maxHeight: 440
@@ -253,11 +261,11 @@ export default function StickyHeadTable() {
   }
   function getGrade(grade) {
     let result;
-    if (grade <= 60) result = "F";
-    else if (grade > 60 && grade <= 70) result = "D";
-    else if (grade > 70 && grade <= 80) result = "C";
-    else if (grade > 80 && grade <= 90) result = "B";
-    else if (grade > 90 && grade <= 100) result = "A";
+    if (grade <= 60) result = <GradeFIcon/>;
+    else if (grade > 60 && grade <= 70) result = <GradeDIcon/>;
+    else if (grade > 70 && grade <= 80) result = <GradeCIcon/>;
+    else if (grade > 80 && grade <= 90) result = <GradeBIcon/>;
+    else if (grade > 90 && grade <= 100) result = <GradeAIcon/>;
     else result = "";
     return result;
   }
@@ -271,6 +279,17 @@ export default function StickyHeadTable() {
       return 0;
     });
   }
+  const ResponsiveLayout = ({ breakpoint, renderMobile, renderDesktop }) => {
+  const [width, setWidth] = useState(window.innerWidth)
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth)
+    }
+    window.addEventListener("resize", handleResize)
+    return () => { window.removeEventListener("resize", handleResize) }
+  }, [])
+  return (width > breakpoint ? renderDesktop() : renderMobile())
+}
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -311,14 +330,14 @@ export default function StickyHeadTable() {
                         aria-label="Acknowledge"
                         onClick={event => event.stopPropagation()}
                         onFocus={event => event.stopPropagation()}
-                        control={<SearchIcon />}
-                        label={getGrade(obj.grade)}
+                        control={getGrade(obj.grade)}
+                        label={"Student:" +obj.studentName+"," +"Teacher:"+ obj.teacherName}
                       />
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                      <Typography color="textSecondary">
+                      <Typography color="textSecondary" className={classes.root}>
                         <PrimaryInfo details={...obj} />
-                        <SecondaryInfo details={...obj} />
+                        <SecondaryInfo details={obj.metaData} />
 
                       </Typography>
                     </ExpansionPanelDetails>
