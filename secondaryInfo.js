@@ -10,6 +10,7 @@ export default function SecndaryInfo(props) {
   const useStyles = makeStyles(theme => ({
     root: {
       maxWidth: 200,
+      fontSize:8,
       marginLeft: "20px",
       transition: "0.3s",
       backgroundColor: theme.palette.primary.light,

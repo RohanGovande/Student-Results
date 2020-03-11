@@ -19,7 +19,7 @@ const data = [
   },
   {
     id: 2,
-    grade: 80,
+    grade: 96,
     className: "2",
     teacherName: "Tom",
     studentName: "Phill",
@@ -79,7 +79,7 @@ const data = [
   },
   {
     id: 6,
-    grade: 65,
+    grade: 40,
     className: "6",
     teacherName: "Tom",
     studentName: "Jon",

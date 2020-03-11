@@ -145,7 +145,7 @@ export default function StickyHeadTable() {
         backgroundColor: fade(theme.palette.common.white, 0.25)
       },
       marginLeft: 20,
-      width: "40%"
+      width: "22%"
     },
     searchIcon: {
       width: theme.spacing(3),
@@ -160,7 +160,7 @@ export default function StickyHeadTable() {
       color: "inherit"
     },
     inputInput: {
-      padding: theme.spacing(1, 1, 1, 7),
+      padding: theme.spacing(1, 1, 1, 5),
       transition: theme.transitions.create("width"),
       width: "100%",
       [theme.breakpoints.up("sm")]: {
@@ -189,6 +189,8 @@ export default function StickyHeadTable() {
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
+    flexBasis: '33.33%',
+
   },
   }));
 
@@ -262,17 +264,7 @@ export default function StickyHeadTable() {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-  function onAddItem() {
-    if (value) {
-      let templist = rows;
-      templist.push(JSON.parse(value));
-      setRows([...templist]);
-      setOpen(false);
-      setSnackBar(true);
-    }
-  }
-
-  function onMenuClick(event, i) {
+ function onMenuClick(event, i) {
     setMenuposition(event.currentTarget);
     setActiveMenu(i);
   }
@@ -303,14 +295,26 @@ export default function StickyHeadTable() {
     else result = "";
     return result;
   }
+  function getGradeText(grade) {
+    let result;
+    if (grade <= 60) result = "F";
+    else if (grade > 60 && grade <= 70) result ="D";
+    else if (grade > 70 && grade <= 80) result = "C";
+    else if (grade > 80 && grade <= 90) result = "B";
+    else if (grade > 90 && grade <= 100) result = "A";
+    else result = "";
+    return result;
+  }
 
   function sortByName(gradeData) {
     return gradeData.sort((a, b) => {
+      if(getGradeText(a.grade)=== getGradeText(b.grade)){
       var nameA = a.studentName.toLowerCase();
       var nameB = b.studentName.toLowerCase();
       if (nameA < nameB) return -1;
       if (nameA > nameB) return 1;
       return 0;
+      }
     });
   }
   return (
@@ -329,7 +333,7 @@ export default function StickyHeadTable() {
                   <SearchIcon />
                 </div>
                 <InputBase
-                  placeholder=  "Student Name.."
+                  placeholder=  "Student.."
                   classes={{
                     root: classes.inputRoot,
                     input :  width > 460 ?  classes.inputInput : classes.inputInputMobile
@@ -355,7 +359,8 @@ export default function StickyHeadTable() {
                         control={getGrade(obj.grade)}
                       />
                 <Typography className={classes.heading}>{"Student:" + obj.studentName}</Typography>
-              <Typography className={classes.secondaryHeading}>{"Teacher:"+ obj.teacherName}</Typography>
+              { width > 360  ? <Typography className={classes.secondaryHeading}>{"Teacher:"+ obj.teacherName}</Typography>: null}
+                { width > 460  ?  <Typography className={classes.secondaryHeading}>{"Class:"+ obj.className}</Typography> : null}
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <Typography color="textSecondary" className={classes.root}>
@@ -400,50 +405,6 @@ export default function StickyHeadTable() {
             </Paper>
           </AppBar>
         </main>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={open}
-          onClose={handleClose}
-        >
-          <div style={modalStyle} className={classes.paper}>
-            <AppBar position="static">
-                           
-              <Toolbar data-cy="pxb-toolbar">
-                 
-                <Typography style={{ flex: 1 }} variant="h6" color="inherit">
-                    Add Resource               
-                </Typography>
-              </Toolbar>
-                          
-            </AppBar>
-            <DialogContent>
-              <DialogContentText>
-                Just edit the below json for adding new resource .
-              </DialogContentText>
-              <TextareaAutosize
-                style={{ height: 300, width: 450 }}
-                rowsMax={8}
-                placeholder="Maximum 8 rows"
-                defaultValue={JSON.stringify(data[0])}
-                onChange={handleChange}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={onAddItem} color="primary">
-                Add
-              </Button>
-            </DialogActions>
-          </div>
-        </Modal>
-        <Snackbar open={openSnackBar} autoHideDuration={3000}>
-          <Alert onClose={handleClose} severity="success">
-            This is a success message!
-          </Alert>
-        </Snackbar>
       </MuiThemeProvider>
     </div>
   );
