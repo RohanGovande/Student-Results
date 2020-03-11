@@ -5,11 +5,8 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import * as PXBThemes from "@pxblue/themes/react";
 require("typeface-open-sans");
-import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -17,25 +14,11 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
-import DeleteIcon from "@material-ui/icons/Delete";
 import Link from "@material-ui/core/Link";
 import { data } from "./data";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Tooltip from "@material-ui/core/Tooltip";
-import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import List from "@material-ui/core/List";
 import SettingsIcon from "@material-ui/icons/Settings";
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -70,17 +53,6 @@ const columns = [
 export default function StickyHeadTable() {
   function rand() {
     return Math.round(Math.random() * 20) - 10;
-  }
-
-  function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`
-    };
   }
 
   const useStyles = makeStyles(theme => ({
@@ -199,12 +171,8 @@ export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState(data);
-  const [menuposition, setMenuposition] = React.useState(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(null);
-  const [activeMenu, setActiveMenu] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(JSON.stringify(data[0]));
-  const [openSnackBar, setSnackBar] = React.useState(false);
   const [inputvalue, setSearchValue] = React.useState("");
   const [width, setWidth] = React.useState(window.innerWidth)
 
@@ -237,9 +205,6 @@ export default function StickyHeadTable() {
     setSearchValue(event.target.value);
   };
 
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-
   const handleChange = event => {
     setValue(event.target.value);
   };
@@ -249,7 +214,6 @@ export default function StickyHeadTable() {
 
   const handleClose = () => {
     setOpen(false);
-    setSnackBar(false);
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -264,24 +228,7 @@ export default function StickyHeadTable() {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
- function onMenuClick(event, i) {
-    setMenuposition(event.currentTarget);
-    setActiveMenu(i);
-  }
-  function onMenuItemClick(option, i) {
-    if (option === "Delete") {
-      let templist = rows;
-      templist.splice(i, 1);
-      setRows(templist);
-    }
-    onMenuClose();
-  }
-  function onMenuClose() {
-    setMenuposition(null);
-    setActiveMenu(null);
-  }
-
-  function sortByGrade(gradeData) {
+ function sortByGrade(gradeData) {
     // sort by value
     return sortByName(gradeData.sort((a, b) => b.grade - a.grade));
   }
@@ -381,27 +328,6 @@ export default function StickyHeadTable() {
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
               />
-              <Menu
-                id="long-menu"
-                anchorEl={menuposition}
-                open={Boolean(menuposition)}
-                onClose={onMenuClose.bind(this)}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: 200
-                  }
-                }}
-              >
-                {options.map(option => (
-                  <MenuItem
-                    key={option}
-                    onClick={() => onMenuItemClick(option, activeMenu)}
-                  >
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
             </Paper>
           </AppBar>
         </main>
